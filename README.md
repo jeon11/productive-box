@@ -27,23 +27,40 @@
 This project uses GitHub graphQL API to get the commit histories and write into the gist by [rest.js](https://github.com/octokit/rest.js#readme)
 
 ## Setup
+Description is modified to be more detailed.
 
-### Prep work
-1. Create a new public GitHub Gist (https://gist.github.com/). The Gist can remain empty. Gist is there to update contents as cron job runs. 
-1. Create a token with the `gist` and `repo` scope and copy it. (https://github.com/settings/tokens/new)
-   > enable `repo` scope seems **DANGEROUS**<br/>
+1. Create a new public GitHub Gist at https://gist.github.com/.
+
+  - Keep this new Gist empty. You don't have to fill any info in it.
+  - Once the gist is created, copy only the gist ID from the url, ie: `https://gist.github.com/maxam2017/`**`9842e074b8ee46aef76fd0d493bae0ed`**.
+  - The idea of Gist here is that everytime the script runs a scheduled cron job, it reads in the repo activities onto the Gist.  
+
+
+2. Create a token at https://github.com/settings/tokens/new.
+
+  - Copy the generated token ID. This will be used in step 6.
+
+  - Select `gist` and `repo` scope, and create it.  
+   > enabling `repo` scope seems **DANGEROUS**<br/>
    > but this GitHub Action only accesses your commit timestamp in repository you contributed.
 
-### Project setup
+3. Fork this repo
 
-1. Fork this repo
-1. Open the "Actions" tab of your fork and click the "enable" button
-1. Edit the [environment variable](https://github.com/maxam2017/productive-box/blob/master/.github/workflows/schedule.yml#L17-L18) in `.github/workflows/schedule.yml`:
+4. Go to your forked repository > Settings > Secrets, and create two variables.
 
-   - **GIST_ID:** The ID portion from your gist url: `https://gist.github.com/maxam2017/`**`9842e074b8ee46aef76fd0d493bae0ed`**.
-   - **TIMEZONE:** The timezone of your location, eg. `Asia/Taipei` for Taiwan, `America/New_York` for America in New York, etc.
+5. Name the first one as "GIST_ID" and fill in the value as the gist ID you copied from step 1
 
-1. Go to the repo **Settings > Secrets**
-1. Add the following environment variables:
-   - **GH_TOKEN:** The GitHub token generated above.
-1. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
+6. Create a second one as "GH_TOKEN" and fill in the value as the token ID you copied from step 2.
+
+7. In the "Repository" tab, navigate and open `.github/workflows/schedule.yml` and edit the two followings:
+
+  - **GIST_ID:** Replace with your Gist ID from step 1
+  - **TIMEZONE:** The timezone of your location, eg. `Asia/Taipei` for Taiwan, `America/New_York` for America in New York, etc.
+
+
+8. Open the "Actions" tab, and click the "enable" button. You don't have to do anything further.
+
+9. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
+
+10. Wait until the cron job is run (default is set to 0 0 0),  
+or you can make a push in the forked repo, which will update the gist.
