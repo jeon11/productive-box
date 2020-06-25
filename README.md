@@ -29,7 +29,7 @@ This project uses GitHub graphQL API to get the commit histories and write into 
 ## Setup
 
 ### Prep work
-1. Create a new public GitHub Gist (https://gist.github.com/) and leave the Gist empty.
+1. Create a new public GitHub Gist (https://gist.github.com/). The Gist can remain empty. Gist is there to update contents as cron job runs. 
 1. Create a token with the `gist` and `repo` scope and copy it. (https://github.com/settings/tokens/new)
    > enable `repo` scope seems **DANGEROUS**<br/>
    > but this GitHub Action only accesses your commit timestamp in repository you contributed.
